@@ -76,6 +76,10 @@
 /* Server Profile's count. */
 #define PROFILE_NUM 2
 
+/* Adv & Scan Rsp flags */
+#define adv_config_flag      (1 << 0)
+#define scan_rsp_config_flag (1 << 1)
+
 /* * * * * * * * * * * * * * * *
  * * * * * FN TYPEDEFS * * * *
  * * * * * * * * * * * * * * * */
@@ -121,23 +125,15 @@ typedef struct {
 
 typedef struct ble_gatt_server
 {
-    gatts_profile_inst_t        app_profiles[PROFILE_NUM];
-    const char                 *dev_name;
-    uint8_t                     adv_config_done;
-    esp_attr_value_t            char_val[PROFILE_NUM];
-    esp_bt_uuid_t               service_uuid[PROFILE_NUM];     /* Service UUIDs for app profiles. */
-    uint16_t                    service_handle[PROFILE_NUM];
-    esp_bt_uuid_t               charact_uuid[PROFILE_NUM];     /* Same characteristic UUID for all services */
-    esp_gatt_char_prop_t        charact_property[PROFILE_NUM];
-    prepare_type_env_t          prep_write_env[PROFILE_NUM];
-    // esp_bt_uuid_t           notify_descr_uuid;              /* Same description notify UUID for all services */
-    // esp_gattc_char_elem_t  *char_elem_result[PROFILE_NUM];
-    // esp_gattc_descr_elem_t *descr_elem_result[PROFILE_NUM];
-    // uint16_t                charact_count[PROFILE_NUM];
-    // bool                    connections[PROFILE_NUM];
-    // bool                    service_found[PROFILE_NUM];
-    // bool                    stop_scan_done;
-    // bool                    is_connecting;
+    gatts_profile_inst_t  app_profiles[PROFILE_NUM];
+    const char           *dev_name;
+    uint8_t               adv_config_done;
+    esp_attr_value_t      char_val[PROFILE_NUM];
+    esp_bt_uuid_t         service_uuid[PROFILE_NUM];     /* Service UUIDs for app profiles. */
+    uint16_t              service_handle[PROFILE_NUM];
+    esp_bt_uuid_t         charact_uuid[PROFILE_NUM];     /* Same characteristic UUID for all services */
+    esp_gatt_char_prop_t  charact_property[PROFILE_NUM];
+    prepare_type_env_t    prep_write_env[PROFILE_NUM];
 } ble_gatt_server_t;
 
 extern ble_gatt_server_t ble_server;
@@ -150,3 +146,7 @@ void ble_register_cbs(void);
 void ble_setup(void);
 
 void ble_register_app(void);
+
+void ble_write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param);
+
+void ble_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param);
