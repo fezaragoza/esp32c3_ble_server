@@ -593,7 +593,8 @@ void ble_set_local_mtu(uint16_t mtu)
     }
 }
 
-void ble_write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param) {
+void ble_write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param)
+{
     esp_gatt_status_t status = ESP_GATT_OK;
     if (param->write.need_rsp) {
         ESP_LOGI(BLES_TAG, "GATT Server needs response");
@@ -640,7 +641,8 @@ void ble_write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare_wri
     }
 }
 
-void ble_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param) {
+void ble_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param)
+{
     if (param->exec_write.exec_write_flag == ESP_GATT_PREP_WRITE_EXEC) {
         esp_log_buffer_hex(BLES_TAG, prepare_write_env->prepare_buf, prepare_write_env->prepare_len);
     } else {
